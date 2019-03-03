@@ -7,8 +7,6 @@ var express = require("express");
 // var connection = require("./config/connection");
 var exphbs = require("express-handlebars");
 
-
-
 // Sets up the Express App
 // =============================================================
 var app = express();

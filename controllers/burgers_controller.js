@@ -1,47 +1,49 @@
 //Dependencies
 //========================
 var express = require("express");
-
 var router = express.Router();
-var burger = require("../models/burger");
-
+var Burger = require("../models/index");
 
 //Main
 //========================
 router.get("/", function (req, res) {
-    burger.all(function (data) {
-        var burgersData = {
-            burgers: data
-        };
-        console.log(burgersData);
-        res.render("index", burgersData);
+
+  Burger.findAll({}).then(function (results) {
+
+    res.render("index", {
+      burgers: results
     });
-});
+  });
 
-//create a burger, push to mysql, redirect to / to show new burger
-router.post("/api/create", function (req, res) {
-    
-    burger.create([
-        "burger_name", "devoured"
-    ], [
-            req.body.burgerText, 0
-        ], function (result) {
-          res.redirect("/");
-            
-        });
-});
+  //create a burger, push to mysql, redirect to / to show new burger
+  router.post("/api/create", function (req, res) {
 
-//update the db to devoured true
-  router.post("/api/update/:id", function(req, res) {
-    var condition = "id = " + req.params.id;
-   console.log(req.params.id);
-    burger.update({
-      devoured: 1
-    }, condition, function(result) {
+    Burger.create(
+      {
+        burger_name: req.body.burgerText,
+        devoured: 0
+
+      }).then(function () {
         res.redirect("/");
-      console.log(result);
       })
-    });
 
+  });
+
+  //update the db to devoured true
+  router.post("/api/update/:id", function (req, res) {
+    Burger.update({
+      devoured: 1
+    }, {
+        where: {
+          id: req.params.id
+        }
+      }).then(function (results) {
+        res.end();
+      })
+    
+  });
+
+
+})
 //export the routes / router
 module.exports = router;
