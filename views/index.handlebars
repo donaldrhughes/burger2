@@ -1,0 +1,34 @@
+<div class="burgerTop">
+    <div class="createBurger"><i class="medium material-icons prefix icon">local_dining</i>Create a Burger to Devour</div>
+<form method="POST" action="/api/create">
+<div class="textContain">
+    <textarea type="text" name="burgerText" class="createBox" ></textarea></div>
+    <p class="devourBtnContain "><button class="waves-effect waves-light btn blue" type="submit">Add Burger</button></p>
+
+</form>
+</div>
+<div id="burger" class="burger">
+    <div class="burgerText"> <img src="https://cdn1.iconfinder.com/data/icons/usa-cartoon-2/512/g16066-512.png" width="100">
+    Burgers to Eat</div>
+
+<ul><form id="updateBurger" method="POST" 
+{{!-- action="/api/update?_method=PUT" --}}
+>
+    {{#each burgers}}
+    {{#if this.devoured}} {{else}} 
+    <li>  ID: {{this.id}} |  {{this.burger_name}} burger  |  Ready to Devour 
+    <button id="btn{{this.id}}" data-id="{{this.id}}" data-devoured="{{this.devoured}}" class="waves-effect waves-light btn burgBtn" type="submit">Devour {{this.burger_name}}</button></li>
+    {{/if}}
+    {{/each}}</form>
+</ul>
+
+</div>
+
+<div class="burgerBottom">
+<div class="burgerBotText"><i class="medium material-icons prefix icon2">sentiment_very_satisfied</i>Devoured Burgers</div>
+ <ul>
+ {{#each burgers}}
+    {{#if this.devoured}}
+    <li>ID: {{this.id}} |  {{this.burger_name}}  | has been devoured</li>{{else}} {{/if}}
+{{/each}}</ul>
+</div>
